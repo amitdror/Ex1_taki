@@ -1,6 +1,3 @@
-
-
-
 function Game() {
     var m_Engine; 
 
@@ -30,7 +27,7 @@ function Game() {
     function renderPile(){
         document.getElementById("pile").innerHTML = "";
         var img = new Image();
-        img.setAttribute("class", (m_Engine.getTopCardFromPile()).getAttributes());
+        img.setAttribute("class", (m_Engine.getPile().getTopCardFromPile()).getAttributes());/////////////////////////
         document.getElementById("pile").appendChild(img);   
     }
 
@@ -57,8 +54,17 @@ function Game() {
         renderPlayers();
     }
 
-    function playerCard_OnClick(){
-        m_Engine.playerCard_OnClick();
+    function playerCard_OnClick(e){
+        var validAction = m_Engine.playerCard_OnClick(e.target);
+
+        if(validAction){
+            //addCardToPile();
+            //checkForAction(); "changce color" --> color 
+        }
+        else{
+            //displayInvalidAction();
+        }
+
         render();
     }
 
