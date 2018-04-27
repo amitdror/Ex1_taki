@@ -11,12 +11,13 @@ function Pile() {
         addCard(card);
     }
 
-    this.addCard = function(card){
+    function addCard(card)
+    {
         cards.push(card);
         color = card.getColor();
         cardId = card.getId();
     }
-    
+
     this.getTopCardFromPile = function(){
         return cards[0];
     }

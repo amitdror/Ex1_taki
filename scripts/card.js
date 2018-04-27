@@ -28,6 +28,10 @@ function Card(eColor, eId, card_atrributes,actionCard) {
         return attributesStr;
     }
 
+    this.addAttribute = function (newAttribute) {
+        attributes.push(newAttribute);
+    }
+
     this.getColor = function(){
         return color;
     }

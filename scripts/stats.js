@@ -2,24 +2,35 @@ function Stats() {
     var elapsedTimeSinceStart = 0;
     var avgPlayingTime = 0;
     var numOfOneCardOnly = 0;
-    var numOfTurns=0;
-    var timePlaying=0; // your turn only 
+    var numOfTurns = 0;
+    var timePlaying = 0; // your turn only 
 
-    this.initStats() = function(){
-        var seconds = setInterval(timer,1000);
-    }
-
-    this.timer = function () {
+    function timer() {
         elapsedTimeSinceStart++;
     }
 
-    this.incrementNumOfTurns = function(){
+    this.init = function () {
+        var seconds = setInterval(timer, 1000);
+    }
+
+    this.incrementNumOfTurns = function () {
         numOfTurns++;
     }
 
-
-    this.incremetOneCardCounter = function(){
+    this.incremetOneCardCounter = function () {
         numOfOneCardOnly++;
+    }
+    this.getElspedTime = function () {
+        return elapsedTimeSinceStart;
+    }
+
+    this.upadteTimePlaying = function (seconds) {
+        timePlaying+=seconds;
+    }
+
+    this.getAvgPlayTime = function(){
+        avgPlayingTime = timePlaying/numOfTurns;
+        return avgPlayingTime;
     }
 
 }

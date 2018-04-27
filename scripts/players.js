@@ -3,9 +3,11 @@ var HUMAN_INDEX = 1;
 
 
 function Players() {
-
+    var cuurentPlayerIndex;
     var currentPlayer;
-    var players= [];
+    var players = [];
+    var numOfBot;
+    var numOfHumans;
 
     function createPlayer(deck, playerType) {
 
@@ -16,42 +18,57 @@ function Players() {
             newPlayer.addCard(lastCard);
         }
         newPlayer.init();
-        players.push(newPlayer); //players.push(player);
+        players.push(newPlayer);
     }
 
-    this.init = function (deck) {
+    function createPlayers(deck, botNum, humansNum) {
+        for (var i = 0; i < botNum; i++) {
+            createPlayer(deck, "bot");
+        }
 
-        createPlayer(deck ,"bot"); //add wrapper function(numOfHumans, numOfBot)
-        createPlayer(deck, "human");
+        for (var i = 0; i < humansNum; i++) {
+            createPlayer(deck, "human");
+        }
+    }
 
+    this.init = function (deck, botNum, humansNum) {
+        numOfBot = botNum;
+        numOfHumans = humansNum;
+        createPlayers(deck, botNum, humansNum);
+
+        
         players[BOT_INDEX].startYourTurn = function () {
-            
+            currentPlayer = players[BOT_INDEX];
         }
         players[BOT_INDEX].endYourTurn = function () {
 
         }
-    
+
         players[HUMAN_INDEX].startYourTurn = function () {
-            
+            currentPlayer = players[HUMAN_INDEX];
         }
         players[HUMAN_INDEX].endYourTurn = function () {
 
         }
-
+        currentPlayerIndex = HUMAN_INDEX;
         currentPlayer = players[HUMAN_INDEX];
     }
 
-    this.getPlayersArray = function(){
+    this.getPlayersArray = function () {
         return players;
     }
-   
 
-    this.isHuman = function(){
-        var reuslt =  currentPlayer.playerId === "human";
+    this.isHuman = function () {
+        var reuslt = currentPlayer.playerId === "human";
         return result;
     }
-    this.getCurrentPlayer = function ()
-    {
+
+    this.getCurrentPlayer = function () {
         return currentPlayer;
+    }
+
+    this.nextPlayerTurn = function () {
+        currentPlayerIndex = (currentPlayerIndex++) % (numOfBot + numOfHumans);
+        currentPlayer = players[currentPlayerIndex];
     }
 }

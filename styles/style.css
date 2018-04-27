@@ -1,15 +1,22 @@
-
-
 body
 {
-    background-color: dodgerblue;
+  /*background: linear-gradient(to bottom right,rgb(29, 202, 194),rgb(10, 171, 192) , rgb(0, 132, 255));
+  background: linear-gradient(to bottom right,#2C3E50,#FD746C);*/
+  background: linear-gradient(to bottom right,#c2e59c,#64b3f4);
+
 }
 
 #menuWrapper
 {
     height: 95%;
     position: relative;
-    border: 3px solid green; 
+}
+
+#gameWrapper
+{
+    height: 95%;
+    display: none; 
+    position: relative;
 }
 
 #taki_logo
@@ -25,26 +32,33 @@ body
 
 #bot {
     position: absolute;
-    top: 5;
-    left:5;
-    right:5;
+    top: 5%;
+    left:5%;
+    right:5%;
     display: inline-block;
-    text-align: center;
   }
   
   #player {
     position: absolute;
-    bottom: 5;
-    left:5;
-    right:5;
+    bottom: 20%; 
+    left:5%;
+    right:5%; 
     display: inline-block;
-    text-align: center;
   }
+
   
   #deck {
     position: absolute;
-    top: 35%;
+    height: 190px;
+    width: 130px;
+    top: 40%;
     right: 15%;
+  }
+
+  .offset {
+    left: 20px;
+    position: absolute;
+    top: 20px;
   }
 
   #pile {
@@ -57,6 +71,9 @@ body
     margin-left: -105px; /*set to a negative number 1/2 of your width*/
   }
 
+  .overLapCard{
+    position: absolute;
+  }
 
   .card {
     display: inline-block;
@@ -69,43 +86,29 @@ body
     background-repeat: no-repeat;
     background-size: 100% 100%;
   }
-
+/* 
  .container
  {
     display: flex;
     justify-content: space-between;
     align-items: center;
- }
-
+ } */
 
 #startGame
 {
-    border-radius: 50%;font-size:48px;
-    
-    text-align: center;
-    font-size: 28px;
-    padding: 20px;
-    position: absolute;
-    top: 35%;
-
-    margin-left: auto;
-    margin-right: auto;
-
-    border: 3px solid rgb(10, 192, 224);
-    color:blue;
-    background-color: rgb(245, 255, 158);
-    margin: 0;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    -ms-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
+  display: block;
+  margin-top: 180px;
+  margin-left: auto;
+  margin-right: auto;
+  height:auto;
+  width:auto;
+  max-width:20%;
+  max-height:20%;
 }
 
-#gameWrapper
-{
-    height: 95%;
-    display: none; 
-    position: relative;
-    border: 3px solid rgb(128, 0, 17); 
+#player > .card:hover { /*going to id player , and to all childs with class card do this*/
+  margin-top: 30px;
+  transition: 200ms ease margin;
+  cursor: pointer;
 }
+

@@ -3,7 +3,7 @@ function Player(playerId) {
     var cards = [];
     var playerId = playerId; // human or bot
     var avgTime = 0;
-
+    var stats;
     //this.startYourTurn;
     //this.endYourTurn;
 
@@ -15,11 +15,25 @@ function Player(playerId) {
         //this.endYourTurn();
     }
 
-    this.removeCard = function (card) {
+    this.removeCard = function (card) { ///****need to check */
+        for (let i = 0; i < cards.length; i++) {
+            if(equalTwoCards(cards[i],cards)) // the card found
+            {
+                cards.splice(i,1);
+                break;
+            }
+        }
+    }
 
+    function equalTwoCards(card1, card2) {///****need to check */
+        var eq = JSON.stringify(card1) === JSON.stringify(card2) // checke defrence between === ^ == 
+        return eq;
     }
 
     this.init = function () {
+        stats = new Stats();
+        stats.init();
+        
         if (playerId === "human") {
             for (var i = 0; i < cards.length; i++) {
                 cards[i].makeCardFaceUp();
@@ -27,9 +41,12 @@ function Player(playerId) {
         }
     }
 
-    this.getCards = function(){
+    this.getCards = function () {
         return cards;
     }
 
+    this.getStats = function(){
+        return stats;
+    }
 
 }
