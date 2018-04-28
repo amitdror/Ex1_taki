@@ -8,10 +8,10 @@ function Pile() {
     this.init = function (deck) {
         var card = deck.getTopCardFromDeck();
         card.makeCardFaceUp();
-        addCard(card);
+        this.addCard(card);
     }
 
-    function addCard(card)
+    this.addCard = function(card)
     {
         cards.push(card);
         color = card.getColor();
@@ -19,7 +19,7 @@ function Pile() {
     }
 
     this.getTopCardFromPile = function(){
-        return cards[0];
+        return cards[cards.length-1];
     }
 
     this.getTopCardId = function(){

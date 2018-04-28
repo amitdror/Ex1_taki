@@ -6,7 +6,6 @@ function GameEngine() {
     var deck;
     var players;
     var pile;
-    var currentPlayer = 1;
     var actionManager;
 
     //PUBLIC FUNCTIONS:
@@ -14,7 +13,7 @@ function GameEngine() {
         deck = new Deck();
         players = new Players();
         pile = new Pile();
-        actionManager = new ActionManager();
+        actionManager = new ActionManager(deck, pile);
 
         deck.init();
         pile.init(deck);
@@ -22,19 +21,6 @@ function GameEngine() {
         actionManager.init();
     }
 
-    function AddCardToPile(card) {
-
-        var isValidAction = isValidCard(card)
-        if (isValidAction) {
-            pile.addCard(card);
-            //currentPlayer = switch to other player
-            if (card.IsActionCard()) {
-                //2plus
-                //taki --> currentPlayer = return to the old player
-            }
-        }
-        return isValidAction;
-    }
 
     this.getDeck = function(){
         return deck;
@@ -56,26 +42,52 @@ function GameEngine() {
         var topCard = deck.getTopCardFromDeck();
         players.getCurrentPlayer().addCard(topCard);
     }
+    
 
-    this.playerCard_OnClick = function (card) {
-        var isValidAction = ActionManager.checkAction(card);
+    //info:
+    //-1 = falid
+    // 0 = added card
+    // 1 = change color
+    // 2 = taki
+    // 3 = stop 
+
+    this.playerCard_OnClick = function (event) {
         
-        if(isValidAction)
+        var gameState = actionManager.getCurrentGameState();
+        //start turn
+        switch(gameState) 
         {
-            AddCardToPile()
+            case eGameState["normal"]:
+                var cardIndex = event.target.id;
+                var currPlayer = players.getCurrentPlayer();
+                var card = currPlayer.getCards()[cardIndex];
+                actionManager.AddCardToPile(currPlayer, card);
+                break;
+            case eGameState["change_colorful"]:
+                var newPileColor = event.target.id;
+                pile.setColor(newPileColor);
+                actionManager.setDefaultState();
+            case eGameState["taki"]:
+
+                break;
+            case eGameState["stop"]:
+                
+                break;
         }
-        //var isValidAction = checkAction_AddToPile(pile);
-        // var isValidAction = ActionManager.CheckAction(card);
 
-        // if(isValidAction)
-        // {
-        //     pile.addCard(card);
+        var turnResult = actionManager.getGameResult();
 
-        //     if(card.IsActionCard()){
+    
+        if(turnResult != -1){ // success 
+            var cardIndex = event.target.id;
+            var card = players.getCurrentPlayer().removeCardByIndex(cardIndex);
+        }
+        else if(turnResult === eGameState["stop"]){
+            //players.jumpNextPlayerTurn()
+            actionManager.setDefaultState();
+        }
 
-        //     }
-        // }
-
-        // return isValidAction;
+        return turnResult;
     }
+
 }

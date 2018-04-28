@@ -24,8 +24,8 @@ function Game() {
     function renderDeck() {
         document.getElementById("deck").innerHTML = "";
         var deck = m_Engine.getDeck();
-        var numOfLoops = deck.getCards().length ;
-        
+        var numOfLoops = deck.getCards().length;
+
         for (var i = 0; i < numOfLoops; i++) {
             var img = new Image();
             img.setAttribute("class", "card " + "card_back " + "overLapCard");
@@ -45,7 +45,7 @@ function Game() {
     }
 
     function renderPlayer(player, playerDivName) {
-        //create continer    
+
         document.getElementById(playerDivName).innerHTML = "";
         var playerDiv = document.getElementById(playerDivName);
         var numOfCards = player.getCards().length;
@@ -54,9 +54,9 @@ function Game() {
         for (var i = 0; i < numOfCards; i++) {
             var img = new Image();
             left += (80 / numOfCards);
-            //img.style.marginTop= 0;
-            img.style.marginLeft =  left + "%";
-            img.setAttribute("class", player.getCards()[i].getAttributes() +" overLapCard");
+            img.style.marginLeft = left + "%";
+            img.setAttribute("id", i);
+            img.setAttribute("class", player.getCards()[i].getAttributes() + " overLapCard");
             playerDiv.appendChild(img);
             document.getElementById(playerDivName).addEventListener("click", playerCard_OnClick);
         }
@@ -71,20 +71,29 @@ function Game() {
 
     function playerCard_OnClick(e) {
 
-        alert(e.target);
-
-        //var validAction = m_Engine.playerCard_OnClick(e.target);
-        //alert(card.getId());
-        
-        if (validAction) {
-            //addCardToPile();
-            //checkForAction(); "changce color" --> color 
-        }
-        else {
-            //displayInvalidAction();
-        }
-        
+        var turnResult = m_Engine.playerCard_OnClick(e);
         render();
+
+        switch (turnResult) {
+
+            case -1: //show falid msg
+                alert("falid msg");
+                break;
+            case 0:  //add card to pile
+                alert("added card");
+                break;
+            case 1:  //add card to pile & 
+                openPopUp();
+                break;
+            case 2:  //taki
+                alert("taki");
+                break;
+            case 3:  //stop
+                alert("stop");
+                break;
+        }
+
+        // render();
     }
 
     function deck_OnClick() {

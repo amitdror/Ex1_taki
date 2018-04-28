@@ -1,56 +1,97 @@
 
+var eGameState = { "normal": 0, "change_colorful": 1, "taki": 2, "stop": 3 };
+
+function ActionManager(deck, pile) {
 
 
-function ActionManager() {
+    this.deck = deck;
+    this.pile = pile;
+    var gameState = eGameState["normal"];
+    var isValidCard = true;
+    var isActionCard = true;
 
-    //this.checkAction = null; //delegte
+
+    this.isValidAction = function () {
+        return isValidAction;
+    }
+
+
 
     this.init = function () {
         //this.checkAction = AddCardToPile;
     }
 
-    function TakiState(card){
+    function TakiState(card) {
 
-       // var playerCards = Players.getCurrentPlayer().getCards();
+        // var playerCards = Players.getCurrentPlayer().getCards();
         //var isMoreCards = playerCards.ContainsColor(deck.getTopCardColor);
 
         var isMoreCards = players.getCurrentPlayer().isHoldCardColor(deck.getTopCardColor());
 
-        var currPlayer =  players.getCurrentPlayer();
+        var currPlayer = players.getCurrentPlayer();
         var takiColor = deck.getTopCardColor();
         var isMoreCardsWithTakiColor = currPlayer.ContainsCardColor(takiColor);
 
-        if(!isMoreCardsWithTakiColor){
+        if (!isMoreCardsWithTakiColor) {
             //currPlayer --> cahge to other player
             checkAciton = AddCardToPile();
         }
     }
 
-    function isValidCard(card) {
+    function checkValidCard(card) {
 
-        var isValidAction = false;
+        var result = false;
 
         if (pile.getTopCardColor() === NO_COLOR ||
             card.getColor() === pile.getTopCardColor() ||
             card.getId() === pile.getTopCardId() ||
             card.getId() === "change_colorful" ||
             pile.getTopCardId() === "change_colorful") {
-            isValidAction = true;
+
+                result = true;
         }
-        return isValidAction;
+        return result;
     }
 
-    this.checkAction = function (card) {//the onlu player card click action - add to pile
-        //check if this is the correct player 
-        var isValidAction = false;
-        var pileTopCard = pile.getTopCardFromPile();
+    this.AddCardToPile = function (player, card) {
 
-        if (card.getColor() === pileTopCard.getColor() ||
-            card.getId() === pile ||
-            card.getId() === "change_colorful" ||
-            pileTopCard.getid() === "change_colorful") {
-            isValidAction = true;
+        isValidCard = checkValidCard(card);
+
+        if (isValidCard) {
+            pile.addCard(card);
+            player.removeCard(card);
+
+            isActionCard = card.isActionCard();
+
+            if (isActionCard) {
+                gameState = eGameState[card.getId()];
+            }
         }
-        return isValidAction;
+    }
+
+    this.getGameResult = function () {
+
+        var result = -1; //not added sign
+
+        if (isValidCard) {
+            result = eGameState["normal"];
+
+            if (isActionCard) {
+                result = gameState;
+            }
+        }
+
+        return result;
+    }
+
+
+    this.setDefaultState = function () {
+        gameState = eGameState["normal"];
+        isValidCard = false;
+        isActionCard = false;
+    }
+
+    this.getCurrentGameState = function(){
+        return gameState;
     }
 }

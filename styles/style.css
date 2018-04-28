@@ -46,7 +46,37 @@ body
     display: inline-block;
   }
 
+
+  /*
+  #botTurn{
+    margin-top: 5%;
+    margin-left: 7%;
+    width: 85%;
+    height: 25%;
+    background-color: rgb(15, 214, 81);
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-left-radius:50% 100%;
+    border-bottom-right-radius: 50% 100%;
+  }
+
+  #playerTurn{
+    position: absolute;
+    margin-top: 67.5%;
+    margin-left: 7%;
+    width: 85%;
+    height: 25%;
+    
+    background-color: rgb(15, 214, 81);
+    border-top-left-radius: 50% 100%;
+    border-top-right-radius: 50% 100%;
+    border-bottom-left-radius:0;
+    border-bottom-right-radius: 0;
+  }*/
+
+
   
+
   #deck {
     position: absolute;
     height: 190px;

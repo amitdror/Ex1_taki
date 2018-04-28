@@ -9,10 +9,11 @@ function Players() {
     var numOfBot;
     var numOfHumans;
 
+
     function createPlayer(deck, playerType) {
 
         var newPlayer = new Player(playerType);
-
+        
         for (var i = 0; i < NUM_OF_STARTING_CARDS; i++) {
             var lastCard = deck.getTopCardFromDeck();
             newPlayer.addCard(lastCard);
@@ -35,23 +36,8 @@ function Players() {
         numOfBot = botNum;
         numOfHumans = humansNum;
         createPlayers(deck, botNum, humansNum);
-
-        
-        players[BOT_INDEX].startYourTurn = function () {
-            currentPlayer = players[BOT_INDEX];
-        }
-        players[BOT_INDEX].endYourTurn = function () {
-
-        }
-
-        players[HUMAN_INDEX].startYourTurn = function () {
-            currentPlayer = players[HUMAN_INDEX];
-        }
-        players[HUMAN_INDEX].endYourTurn = function () {
-
-        }
-        currentPlayerIndex = HUMAN_INDEX;
-        currentPlayer = players[HUMAN_INDEX];
+        currentPlayer = players[numOfBot]; // the first human player
+        cuurentPlayerIndex = numOfBot;
     }
 
     this.getPlayersArray = function () {
@@ -68,7 +54,17 @@ function Players() {
     }
 
     this.nextPlayerTurn = function () {
+        currentPlayer.endYourTurn(); //end currPlayer turn
         currentPlayerIndex = (currentPlayerIndex++) % (numOfBot + numOfHumans);
         currentPlayer = players[currentPlayerIndex];
+        currentPlayer.startYourTurn();//start nextPlayar turn
+    }
+
+    this.jumpNextPlayerTurn = function(){
+        currentPlayer.endYourTurn(); //end currPlayer turn
+        currentPlayerIndex = (currentPlayerIndex + 2) % (numOfBot + numOfHumans);
+        currentPlayer = players[currentPlayerIndex];
+        currentPlayer.startYourTurn();//start nextPlayar turn
     }
 }
+

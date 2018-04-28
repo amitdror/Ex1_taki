@@ -1,37 +1,39 @@
 function Stats() {
-    var elapsedTimeSinceStart = 0;
-    var avgPlayingTime = 0;
+
+    var avgPlayingTimePerTurn = 0;
     var numOfOneCardOnly = 0;
     var numOfTurns = 0;
     var timePlaying = 0; // your turn only 
+    var intervalTimerId;
 
-    function timer() {
-        elapsedTimeSinceStart++;
+    function timePlayingCounter() {
+        timePlaying++;
     }
 
     this.init = function () {
-        var seconds = setInterval(timer, 1000);
+        avgPlayingTimePerTurn = 0;
+        numOfOneCardOnly = 0;
+        numOfTurns = 0;
+        timePlaying = 0;
+        intervalTimerId = 0;
     }
 
-    this.incrementNumOfTurns = function () {
+    this.startTurnTimer = function () {
+        intervalTimerId = setInterval(timePlayingCounter, 1000);
+    }
+
+    this.endTurnTimer = function () {
+        clearInterval(intervalTimerId);
         numOfTurns++;
     }
 
-    this.incremetOneCardCounter = function () {
+    this.incrementNumOfOneCard= function(){
         numOfOneCardOnly++;
     }
-    this.getElspedTime = function () {
-        return elapsedTimeSinceStart;
-    }
 
-    this.upadteTimePlaying = function (seconds) {
-        timePlaying+=seconds;
-    }
-
-    this.getAvgPlayTime = function(){
-        avgPlayingTime = timePlaying/numOfTurns;
+    this.getAvgPlayTime = function () {
+        avgPlayingTimePerTurn = timePlaying / numOfTurns;
         return avgPlayingTime;
     }
-
 }
 
