@@ -11,22 +11,22 @@ function Player(playerId) {
         return eq;
     }
 
-    function startHumanTurn() {
+    var startHumanTurn = function () {
         stats.startTurnTimer();
     }
 
-    function startBotTurn() {
+    var startBotTurn = function () {
         stats.startTurnTimer();
     }
 
-    function endHumanTurn() {
+    var endHumanTurn = function() {
         if (cards.length === 1) {
             stats.incrementNumOfOneCard();
         }
         stats.endTurnTimer();
     }
 
-    function endBotTurn() {
+    var endBotTurn = function() {
         if (cards.length === 1) {
             stats.incrementNumOfOneCard();
         }
@@ -61,28 +61,31 @@ function Player(playerId) {
         cards.push(card);
     }
 
-    
+
     this.removeCard = function (card) { ///****need to check 
         for (let i = 0; i < cards.length; i++) {
-            if (equalTwoCards(cards[i], cards)) // the card found
-            {
+            if (equalTwoCards(cards[i], card)) // the card found
+            {   
                 cards.splice(i, 1);
                 break;
             }
         }
     }
-    
+
 
     this.removeCardByIndex = function (cardIndex) {
         cards.splice(cardIndex, 1);
     }
 
-        this.getCards = function () {
-            return cards;
-        }
-
-        this.getStats = function () {
-            return stats;
-        }
-
+    this.getCards = function () {
+        return cards;
     }
+
+    this.getStats = function () {
+        return stats;
+    }
+
+    this.getId = function(){
+        return playerId;
+    }
+}

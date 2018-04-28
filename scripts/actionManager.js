@@ -3,39 +3,16 @@ var eGameState = { "normal": 0, "change_colorful": 1, "taki": 2, "stop": 3 };
 
 function ActionManager(deck, pile) {
 
-
     this.deck = deck;
     this.pile = pile;
-    var gameState = eGameState["normal"];
-    var isValidCard = true;
-    var isActionCard = true;
-
-
-    this.isValidAction = function () {
-        return isValidAction;
-    }
-
-
+    var gameState;
+    var isValidCard;
+    var isActionCard;
 
     this.init = function () {
-        //this.checkAction = AddCardToPile;
-    }
-
-    function TakiState(card) {
-
-        // var playerCards = Players.getCurrentPlayer().getCards();
-        //var isMoreCards = playerCards.ContainsColor(deck.getTopCardColor);
-
-        var isMoreCards = players.getCurrentPlayer().isHoldCardColor(deck.getTopCardColor());
-
-        var currPlayer = players.getCurrentPlayer();
-        var takiColor = deck.getTopCardColor();
-        var isMoreCardsWithTakiColor = currPlayer.ContainsCardColor(takiColor);
-
-        if (!isMoreCardsWithTakiColor) {
-            //currPlayer --> cahge to other player
-            checkAciton = AddCardToPile();
-        }
+        gameState = eGameState["normal"];
+        isValidCard = true;
+        isActionCard = true;
     }
 
     function checkValidCard(card) {
@@ -48,7 +25,7 @@ function ActionManager(deck, pile) {
             card.getId() === "change_colorful" ||
             pile.getTopCardId() === "change_colorful") {
 
-                result = true;
+            result = true;
         }
         return result;
     }
@@ -62,7 +39,6 @@ function ActionManager(deck, pile) {
             player.removeCard(card);
 
             isActionCard = card.isActionCard();
-
             if (isActionCard) {
                 gameState = eGameState[card.getId()];
             }
@@ -91,7 +67,7 @@ function ActionManager(deck, pile) {
         isActionCard = false;
     }
 
-    this.getCurrentGameState = function(){
+    this.getCurrentGameState = function () {
         return gameState;
     }
 }

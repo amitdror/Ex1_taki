@@ -33,15 +33,16 @@ function Game() {
             var left = i / 3;
             img.style.margin = top + "px " + left + "px";
             document.getElementById("deck").appendChild(img);
-            document.getElementById("deck").addEventListener("click", deck_OnClick);
+            
         }
+        document.getElementById("deck").addEventListener("click", deck_OnClick);
     }
 
     function renderPlayers() {
         var players = m_Engine.getPlayers();
 
-        renderPlayer(players[0], "bot");
-        renderPlayer(players[1], "player");
+        renderPlayer(players[0], "player");
+        renderPlayer(players[1], "bot");
     }
 
     function renderPlayer(player, playerDivName) {
@@ -71,8 +72,11 @@ function Game() {
 
     function playerCard_OnClick(e) {
 
+        alert(m_Engine.getCurrentPlayer().getId());
+
         var turnResult = m_Engine.playerCard_OnClick(e);
         render();
+
 
         switch (turnResult) {
 
@@ -81,15 +85,18 @@ function Game() {
                 break;
             case 0:  //add card to pile
                 alert("added card");
+                document.getElementById("player").click = false;
                 break;
             case 1:  //add card to pile & 
                 openPopUp();
+
                 break;
             case 2:  //taki
                 alert("taki");
                 break;
             case 3:  //stop
                 alert("stop");
+
                 break;
         }
 
@@ -97,7 +104,7 @@ function Game() {
     }
 
     function deck_OnClick() {
-        document.getElementById("deck").removeEventListener("click", deck_OnClick);
+       // document.getElementById("deck").removeEventListener("click", deck_OnClick);
         m_Engine.deck_OnClick();
         render();
     }

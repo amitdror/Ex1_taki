@@ -1,9 +1,9 @@
-var BOT_INDEX = 0;
-var HUMAN_INDEX = 1;
+var BOT_INDEX = 1;
+var HUMAN_INDEX = 0;
 
 
 function Players() {
-    var cuurentPlayerIndex;
+    var currentPlayerIndex;
     var currentPlayer;
     var players = [];
     var numOfBot;
@@ -13,7 +13,7 @@ function Players() {
     function createPlayer(deck, playerType) {
 
         var newPlayer = new Player(playerType);
-        
+
         for (var i = 0; i < NUM_OF_STARTING_CARDS; i++) {
             var lastCard = deck.getTopCardFromDeck();
             newPlayer.addCard(lastCard);
@@ -23,12 +23,13 @@ function Players() {
     }
 
     function createPlayers(deck, botNum, humansNum) {
-        for (var i = 0; i < botNum; i++) {
-            createPlayer(deck, "bot");
-        }
 
         for (var i = 0; i < humansNum; i++) {
             createPlayer(deck, "human");
+        }
+
+        for (var i = 0; i < botNum; i++) {
+            createPlayer(deck, "bot");
         }
     }
 
@@ -36,8 +37,8 @@ function Players() {
         numOfBot = botNum;
         numOfHumans = humansNum;
         createPlayers(deck, botNum, humansNum);
-        currentPlayer = players[numOfBot]; // the first human player
-        cuurentPlayerIndex = numOfBot;
+        currentPlayer = players[HUMAN_INDEX]; // the first human player
+        currentPlayerIndex = HUMAN_INDEX;
     }
 
     this.getPlayersArray = function () {
@@ -54,17 +55,19 @@ function Players() {
     }
 
     this.nextPlayerTurn = function () {
-        currentPlayer.endYourTurn(); //end currPlayer turn
-        currentPlayerIndex = (currentPlayerIndex++) % (numOfBot + numOfHumans);
+        currentPlayer.endYourTurn; //end currPlayer turn
+
+        currentPlayerIndex = (++currentPlayerIndex) % (numOfBot + numOfHumans);
         currentPlayer = players[currentPlayerIndex];
-        currentPlayer.startYourTurn();//start nextPlayar turn
+
+        currentPlayer.startYourTurn;//start nextPlayar turn
     }
 
     this.jumpNextPlayerTurn = function(){
-        currentPlayer.endYourTurn(); //end currPlayer turn
+        currentPlayer.endYourTurn; //end currPlayer turn
         currentPlayerIndex = (currentPlayerIndex + 2) % (numOfBot + numOfHumans);
         currentPlayer = players[currentPlayerIndex];
-        currentPlayer.startYourTurn();//start nextPlayar turn
+        currentPlayer.startYourTurn;//start nextPlayar turn
     }
 }
 
