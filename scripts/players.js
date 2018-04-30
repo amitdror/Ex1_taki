@@ -8,6 +8,7 @@ function Players() {
     var players = [];
     var numOfBot;
     var numOfHumans;
+    var topPile;
 
 
     function createPlayer(deck, playerType) {
@@ -18,7 +19,7 @@ function Players() {
             var lastCard = deck.getTopCardFromDeck();
             newPlayer.addCard(lastCard);
         }
-        newPlayer.init();
+        newPlayer.init(topPile);
         players.push(newPlayer);
     }
 
@@ -33,7 +34,8 @@ function Players() {
         }
     }
 
-    this.init = function (deck, botNum, humansNum) {
+    this.init = function (deck,topPileCard, botNum, humansNum) {
+        topPile = topPileCard;
         numOfBot = botNum;
         numOfHumans = humansNum;
         createPlayers(deck, botNum, humansNum);
@@ -53,21 +55,21 @@ function Players() {
     this.getCurrentPlayer = function () {
         return currentPlayer;
     }
-
+    
     this.nextPlayerTurn = function () {
-        currentPlayer.endYourTurn; //end currPlayer turn
+        currentPlayer.endYourTurnFunc(); //end currPlayer turn
 
         currentPlayerIndex = (++currentPlayerIndex) % (numOfBot + numOfHumans);
         currentPlayer = players[currentPlayerIndex];
 
-        currentPlayer.startYourTurn;//start nextPlayar turn
+        currentPlayer.startYourTurnFunc();//start nextPlayar turn
     }
 
     this.jumpNextPlayerTurn = function(){
-        currentPlayer.endYourTurn; //end currPlayer turn
+        currentPlayer.endYourTurnFunc(); //end currPlayer turn
         currentPlayerIndex = (currentPlayerIndex + 2) % (numOfBot + numOfHumans);
         currentPlayer = players[currentPlayerIndex];
-        currentPlayer.startYourTurn;//start nextPlayar turn
+        currentPlayer.startYourTurnFunc();//start nextPlayar turn
     }
 }
 

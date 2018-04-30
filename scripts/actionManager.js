@@ -11,8 +11,18 @@ function ActionManager(deck, pile) {
 
     this.init = function () {
         gameState = eGameState["normal"];
-        isValidCard = true;
-        isActionCard = true;
+        isValidCard = false;//was true???
+        isActionCard = false;//
+    }
+
+    function isActionCard(card){
+        if(card.getId()==="change_colorful"||
+        card.getId()==="taki"||
+        card.getId()==="stop")
+        {
+            return true;
+        }
+        return false;
     }
 
     function checkValidCard(card) {
@@ -35,9 +45,10 @@ function ActionManager(deck, pile) {
         isValidCard = checkValidCard(card);
 
         if (isValidCard) {
+            card.makeCardFaceUp();//for bot 
             pile.addCard(card);
             player.removeCard(card);
-
+            player.setPileTopCard(pile.getTopCardFromPile());
             isActionCard = card.isActionCard();
             if (isActionCard) {
                 gameState = eGameState[card.getId()];
@@ -46,7 +57,6 @@ function ActionManager(deck, pile) {
     }
 
     this.getGameResult = function () {
-
         var result = -1; //not added sign
 
         if (isValidCard) {

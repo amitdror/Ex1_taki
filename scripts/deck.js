@@ -51,6 +51,7 @@ function Deck() {
         numOfCardToWithdraw = 1;
         createDeck();
         shuffle();
+
     }
 
     this.getTopCardFromDeck = function(){

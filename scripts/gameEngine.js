@@ -11,17 +11,16 @@ function GameEngine() {
     //PUBLIC FUNCTIONS:
     this.initEngine = function (numberOfHuman, numberOfBots) {
         deck = new Deck();
-        players = new Players();
+        players = new Players();  
         pile = new Pile();
         actionManager = new ActionManager(deck, pile);
 
         deck.init();
         pile.init(deck);
-        players.init(deck, 1, 1); // 1 bot, 1 human
+        players.init(deck,pile.getTopCardFromPile(), 1, 1); // 1 bot, 1 human
         actionManager.init();
-        players.getCurrentPlayer().startYourTurn;//*/*/*//*/
+        players.getCurrentPlayer().startYourTurnFunc();
     }
-
 
     this.getDeck = function () {
         return deck;
@@ -35,6 +34,10 @@ function GameEngine() {
         return players.getPlayersArray();
     }
 
+    this.getPlayersObj = function(){
+        return players;
+    }
+
     this.getCurrentPlayer = function () {
         return players.getCurrentPlayer();
     }
@@ -45,14 +48,12 @@ function GameEngine() {
         players.nextPlayerTurn();
     }
 
-
     //info:
     //-1 = falid
     // 0 = added card
     // 1 = change color
     // 2 = taki
     // 3 = stop 
-
     this.playerCard_OnClick = function (event) {
 
         var gameState = actionManager.getCurrentGameState();
@@ -81,10 +82,9 @@ function GameEngine() {
 
         var turnResult = actionManager.getGameResult();
 
-
         switch (turnResult) {
             case eGameState["normal"]:
-                players.nextPlayerTurn();
+                //players.nextPlayerTurn();
                 break;
             case eGameState["change_colorful"]:
                 //skip until getting color

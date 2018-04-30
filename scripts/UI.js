@@ -70,9 +70,9 @@ function Game() {
     }
 
 
-    function playerCard_OnClick(e) {
+    async function playerCard_OnClick(e) {
 
-        alert(m_Engine.getCurrentPlayer().getId());
+        //alert(m_Engine.getCurrentPlayer().getId());
 
         var turnResult = m_Engine.playerCard_OnClick(e);
         render();
@@ -85,7 +85,8 @@ function Game() {
                 break;
             case 0:  //add card to pile
                 alert("added card");
-                document.getElementById("player").click = false;
+                await sleep(2000);
+                m_Engine.getPlayersObj().nextPlayerTurn();
                 break;
             case 1:  //add card to pile & 
                 openPopUp();
@@ -99,15 +100,15 @@ function Game() {
 
                 break;
         }
-
-        // render();
     }
+
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+      }
 
     function deck_OnClick() {
        // document.getElementById("deck").removeEventListener("click", deck_OnClick);
         m_Engine.deck_OnClick();
         render();
     }
-
-
 }
