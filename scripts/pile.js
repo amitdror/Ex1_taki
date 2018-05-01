@@ -38,5 +38,9 @@ function Pile() {
         color = newColor;
     }
 
+    this.getPileCards = function(){
+        return cards;
+    }
+
 }
 

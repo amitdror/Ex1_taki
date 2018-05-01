@@ -8,11 +8,9 @@ function Player(playerId) {
     var topPileCard;
 
     function equalTwoCards(card1, card2) {
-        //var eq = JSON.stringify(card1) === JSON.stringify(card2) // checke defrence between === ^ == 
         var isEqual = false;
-        if(card1.getColor()===card2.getColor() && card1.getId()===card2.getId())
-        {
-            isEqual= true;
+        if (card1.getColor() === card2.getColor() && card1.getId() === card2.getId()) {
+            isEqual = true;
         }
         return isEqual;
     }
@@ -29,47 +27,66 @@ function Player(playerId) {
         cardIndex = hasCard("change_colorful")
         if (cardIndex != -1) {// card found
             elem = document.getElementById(cardIndex);
-            elem.click();
         }
         else {
             cardIndex = hasCard("stop")
             if (cardIndex != -1) {
                 elem = document.getElementById(cardIndex);
-                elem.click();
             }
             else {
                 cardIndex = hasCard("taki")
                 if (cardIndex != -1) {
                     elem = document.getElementById(cardIndex);
-                    elem.click();
                 } else {
                     for (var i = 0; i < cards.length; i++) {
                         if (cards[i].getColor() === topPileCard.getColor() || cards[i].getId() === topPileCard.getId()) {
                             cardIndex = i;
                             elem = document.getElementById(cardIndex);
-                            elem.click();
+                            break;
                         }
                     }
                 }
             }
-            ////getCardFromDeck
+        }
+        if (elem) {
+            elem.click();
+        }
+        else {
             document.getElementById("deck").click();
         }
     }
 
-
     function hasCard(cardType) {
-        var i;
-        for (i = 0; i < cards.length; i++) {
-            if ((cardType === cards[i].getId() && cards[i].getColor() === topPileCard.getColor())) {
-                return i;
-            }
-            else if (cards[i].getId() === cardType) {
-                return i;
-            }
+        switch (cardType) {
+
+            case "change_colorful":
+                for (var i = 0; i < cards.length; i++) {
+                    if ((cardType === cards[i].getId())) {
+                        return i;
+                    }
+                }
+                return -1;
+                break;
+            case "stop":
+                for (var i = 0; i < cards.length; i++) {
+                    if ((cards[i].getId() === "stop" && topPileCard.getId() === "stop") ||
+                        (cards[i].getColor() === topPileCard.getColor() && cards[i].getId() === "stop")) {
+                        return i;
+                    }
+                }
+                return -1;
+                break;
+            case "taki":
+                for (var i = 0; i < cards.length; i++) {
+                    if (("taki" === cards[i].getId() && cards[i].getColor() === topPileCard.getColor())) {
+                        return i;
+                    }
+                }
+                return -1;
+                break;
         }
-        return -1;
     }
+
     var endHumanTurn = function () {
         if (cards.length === 1) {
             stats.incrementNumOfOneCard();
@@ -89,12 +106,11 @@ function Player(playerId) {
         stats = new Stats();
         stats.init();
 
-        if (playerId === "human") {
+        if (playerId === "human" || playerId === "bot") {
             for (var i = 0; i < cards.length; i++) {
                 cards[i].makeCardFaceUp();
             }
         }
-
         if (playerId === "human") {
             startYourTurn = startHumanTurn;
             endYourTurn = endHumanTurn;
@@ -105,14 +121,12 @@ function Player(playerId) {
         }
     }
 
-
     this.addCard = function (card) {
         if (playerId === "human") {
             card.makeCardFaceUp();
         }
         cards.push(card);
     }
-
 
     this.removeCard = function (card) {
         for (let i = 0; i < cards.length; i++) {
@@ -140,6 +154,8 @@ function Player(playerId) {
         return playerId;
     }
     this.setPileTopCard = function (card) {
+        var x = card.getColor();
+        var y = card.getId();
         topPileCard = card;
     }
 
@@ -149,4 +165,5 @@ function Player(playerId) {
     this.endYourTurnFunc = function () {
         endYourTurn.call();
     }
+
 }

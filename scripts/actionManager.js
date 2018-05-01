@@ -15,7 +15,7 @@ function ActionManager(deck, pile) {
         isActionCard = false;//
     }
 
-    function isActionCard(card){
+    function isActionCardFunc(card){
         if(card.getId()==="change_colorful"||
         card.getId()==="taki"||
         card.getId()==="stop")
@@ -28,7 +28,9 @@ function ActionManager(deck, pile) {
     function checkValidCard(card) {
 
         var result = false;
-
+        var x =pile.getTopCardColor();
+        var y=card.getId();
+        
         if (pile.getTopCardColor() === NO_COLOR ||
             card.getColor() === pile.getTopCardColor() ||
             card.getId() === pile.getTopCardId() ||
@@ -48,8 +50,7 @@ function ActionManager(deck, pile) {
             card.makeCardFaceUp();//for bot 
             pile.addCard(card);
             player.removeCard(card);
-            player.setPileTopCard(pile.getTopCardFromPile());
-            isActionCard = card.isActionCard();
+            isActionCard = isActionCardFunc(card);
             if (isActionCard) {
                 gameState = eGameState[card.getId()];
             }

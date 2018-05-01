@@ -10,9 +10,7 @@ function Players() {
     var numOfHumans;
     var topPile;
 
-
     function createPlayer(deck, playerType) {
-
         var newPlayer = new Player(playerType);
 
         for (var i = 0; i < NUM_OF_STARTING_CARDS; i++) {
@@ -24,7 +22,6 @@ function Players() {
     }
 
     function createPlayers(deck, botNum, humansNum) {
-
         for (var i = 0; i < humansNum; i++) {
             createPlayer(deck, "human");
         }
@@ -71,5 +68,9 @@ function Players() {
         currentPlayer = players[currentPlayerIndex];
         currentPlayer.startYourTurnFunc();//start nextPlayar turn
     }
-}
 
+    this.getCurrentPlayerIndex = function(){
+        return currentPlayerIndex;
+    }
+
+}

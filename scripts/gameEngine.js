@@ -11,13 +11,13 @@ function GameEngine() {
     //PUBLIC FUNCTIONS:
     this.initEngine = function (numberOfHuman, numberOfBots) {
         deck = new Deck();
-        players = new Players();  
+        players = new Players();
         pile = new Pile();
         actionManager = new ActionManager(deck, pile);
 
         deck.init();
         pile.init(deck);
-        players.init(deck,pile.getTopCardFromPile(), 1, 1); // 1 bot, 1 human
+        players.init(deck, pile.getTopCardFromPile(), 1, 1); // 1 bot, 1 human
         actionManager.init();
         players.getCurrentPlayer().startYourTurnFunc();
     }
@@ -34,7 +34,7 @@ function GameEngine() {
         return players.getPlayersArray();
     }
 
-    this.getPlayersObj = function(){
+    this.getPlayersObj = function () {
         return players;
     }
 
@@ -45,7 +45,7 @@ function GameEngine() {
     this.deck_OnClick = function () {
         var topCard = deck.getTopCardFromDeck();
         players.getCurrentPlayer().addCard(topCard);
-        players.nextPlayerTurn();
+        //players.nextPlayerTurn(); moved to ui
     }
 
     //info:
@@ -67,7 +67,7 @@ function GameEngine() {
                 break;
             case eGameState["change_colorful"]:
                 var newPileColor = event.target.id;
-                pile.setColor(newPileColor);
+                pile.setTopCardColor(newPileColor);
                 actionManager.setDefaultState();
             case eGameState["taki"]:
                 var cardIndex = event.target.id;
@@ -76,53 +76,37 @@ function GameEngine() {
                 actionManager.AddCardToPile(currPlayer, card);
                 break;
             case eGameState["stop"]:
-                //handale by switch 2
+                //handale by switch 2   
                 break;
         }
-
+        updatePlayerTopCardPile(); //every player need to know what the cuurnet card in pile
         var turnResult = actionManager.getGameResult();
-
-        switch (turnResult) {
-            case eGameState["normal"]:
-                //players.nextPlayerTurn();
-                break;
-            case eGameState["change_colorful"]:
-                //skip until getting color
-                break;
-            case eGameState["taki"]:
-                //check the current player card sfor more color as the taki color
-                var hasMoreCards = checkForMoreCardColor();
-
-                if(!hasMoreCards){
-                    players.jumpNextPlayerTurn();
-                    actionManager.setDefaultState();
-                }
-                break;
-            case eGameState["stop"]:
-                players.jumpNextPlayerTurn();
-                actionManager.setDefaultState();
-                break;
-        }
-
         return turnResult;
     }
 
-    function checkForMoreCardColor(){
+    function updatePlayerTopCardPile() {
+        var playersArr = players.getPlayersArray();
+        for (var i = 0; i < playersArr.length; i++) {
+            playersArr[i].setPileTopCard(pile.getTopCardFromPile());
+        }
+    }
 
+    this.checkForMoreCardColor = function () {
         var result = false;
         var currPlayer = players.getCurrentPlayer();
         var cards = currPlayer.getCards();
         var pileColor = pile.getTopCardColor();
 
         cards.forEach(card => {
-            
-            if(card.getColor() === pileColor){
+
+            if (card.getColor() === pileColor || card.getId() === "change_colorful") {
                 result = true;
             }
         });
-
         return result;
     }
 
-
+    this.getActionManager = function () {
+        return actionManager;
+    }
 }
